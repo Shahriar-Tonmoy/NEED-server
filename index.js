@@ -35,6 +35,7 @@ const client = new MongoClient(uri, {
 
 const database = client.db("jobsDB");
 const jobsCollection = database.collection("jobs");
+const bidJobsCollection = database.collection("bidJobs");
 
 async function run() {
   try {
@@ -47,12 +48,24 @@ async function run() {
         const result = await cursor.toArray();
         res.send(result);
       })
+    app.get('/bidJobs', async (req, res) =>{
+        const cursor = bidJobsCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+      })
 
     //create data or insert a data to database
     app.post("/jobs", async (req, res) => {
         console.log(req.body);
         const newJob = req.body;
         const result = await jobsCollection.insertOne(newJob);
+        res.send(result);
+        console.log(result);       
+    });
+    app.post("/bidJobs", async (req, res) => {
+        console.log(req.body);
+        const newJob = req.body;
+        const result = await bidJobsCollection.insertOne(newJob);
         res.send(result);
         console.log(result);       
     });
