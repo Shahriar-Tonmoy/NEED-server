@@ -83,6 +83,21 @@ async function run() {
         console.log(result);       
     });
 
+    //api for update data
+    app.patch('/bidJobs/:id', async(req, res) =>{
+        const id = req.params.id;
+        const filter = {_id: new ObjectId(id)}
+        const updateStatus = req.body;
+        console.log(updateStatus);
+        const updateDoc = {
+            $set: {
+              status: updateStatus.status
+            },
+          };
+        const result = await bidJobsCollection.updateOne(filter, updateDoc);
+        res.send(result);
+    })
+
 
 
     // Send a ping to confirm a successful connection
