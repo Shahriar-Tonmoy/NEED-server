@@ -49,10 +49,23 @@ async function run() {
         res.send(result);
       })
     app.get('/bidJobs', async (req, res) =>{
-        const cursor = bidJobsCollection.find();
+        console.log(req.query.email);
+        let query = {};
+        if(req.query?.email){
+            query = {email: req.query.email}
+        }
+
+        const cursor = bidJobsCollection.find(query);
         const result = await cursor.toArray();
         res.send(result);
       })
+
+    app.get('/bidJobs', async(req, res) =>{
+        
+        const cursor = bidJobsCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+    })
 
     //create data or insert a data to database
     app.post("/jobs", async (req, res) => {
