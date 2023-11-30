@@ -43,11 +43,7 @@ async function run() {
     await client.connect();
 
     //get api
-    app.get('/jobs', async (req, res) =>{
-        const cursor = jobsCollection.find();
-        const result = await cursor.toArray();
-        res.send(result);
-      })
+    //get some data  
     app.get('/bidJobs', async (req, res) =>{
         console.log(req.query.email);
         let query = {};
@@ -59,7 +55,26 @@ async function run() {
         const result = await cursor.toArray();
         res.send(result);
       })
+    
+      app.get('/jobs', async (req, res) =>{
+        console.log(req.query.email);
+        let query = {};
+        if(req.query?.email){
+            query = {email: req.query.email}
+        }
 
+        const cursor = jobsCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+      })
+    
+    
+    //get all data
+    app.get('/jobs', async (req, res) =>{
+        const cursor = jobsCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+      })
     app.get('/bidJobs', async(req, res) =>{
         
         const cursor = bidJobsCollection.find();
