@@ -120,6 +120,27 @@ async function run() {
         res.send(result);
     })
 
+    app.put('/jobs/:id', async (req, res) => {
+        const id = req.params.id;
+        const toBeUpdatedJob = req.body;
+        console.log(toBeUpdatedJob);
+        const query = { _id: new ObjectId(id)};
+        const options = { upsert: true };
+        const updateJob = {
+          $set: {
+            email:toBeUpdatedJob.fEmail,
+            title:toBeUpdatedJob.fJobTitle,
+            deadline:toBeUpdatedJob.fDeadline,
+            description:toBeUpdatedJob.fDescription,
+            category:toBeUpdatedJob.fCategory,
+            minimumPrice:toBeUpdatedJob.fMinimumPrice,
+            maximumPrice:toBeUpdatedJob.fMaximumPrice
+          }
+        }
+        const result = await jobsCollection.updateOne(query, updateJob, options);
+        res.send(result);
+      })
+
 
 
     // Send a ping to confirm a successful connection
