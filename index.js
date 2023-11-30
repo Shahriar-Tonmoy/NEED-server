@@ -81,6 +81,13 @@ async function run() {
         const result = await cursor.toArray();
         res.send(result);
     })
+    //get one data
+    app.get('/jobs/:id', async (req, res) =>{
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)};
+        const job = await jobsCollection.findOne(query);
+        res.send(job);
+      })
 
     //create data or insert a data to database
     app.post("/jobs", async (req, res) => {
