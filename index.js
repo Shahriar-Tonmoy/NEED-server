@@ -105,6 +105,17 @@ async function run() {
         console.log(result);       
     });
 
+    //delete data
+    app.delete('/jobs/:cid', async(req, res) => {
+        const id  = req.params.cid;
+        console.log(`PLEASE DELETE ID FROM DATABASE: ${id}`);
+        const query = { _id: new ObjectId(id)};
+        console.log(query);
+        
+        const result = await jobsCollection.deleteOne(query);
+        res.send(result);
+      })
+
     //api for update data
     app.patch('/bidJobs/:id', async(req, res) =>{
         const id = req.params.id;
