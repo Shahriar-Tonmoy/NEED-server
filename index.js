@@ -47,14 +47,17 @@ async function run() {
     app.get('/bidJobs', async (req, res) =>{
         console.log(req.query.email);
         let query = {};
-        if(req.query?.email){
-            query = {email: req.query.email}
-        }
+        if (req.query?.buyerEmail) {
+            query = { buyerEmail: req.query.buyerEmail };
+          } else if (req.query?.email) {
+            query = { email: req.query.email };
+          }
 
-        const cursor = bidJobsCollection.find(query);
+        const cursor = bidJobsCollection.find(query).sort( { status: 1 } );
         const result = await cursor.toArray();
         res.send(result);
       })
+    
     
       app.get('/jobs', async (req, res) =>{
         console.log(req.query.email);
@@ -79,6 +82,7 @@ async function run() {
         
         const cursor = bidJobsCollection.find();
         const result = await cursor.toArray();
+        sort( { age : -1, posts: 1 } )
         res.send(result);
     })
     //get one data
